@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-hatch-color-scheme="light" data-hatch-accent="blue"><head><script data-hatch-cvm-opaque-url-compat="" nonce="">(function(){var WINDOW=window;var HREF=WINDOW.location&&WINDOW.location.href;if(typeof HREF!=="string"||HREF.indexOf("blob:null/")!==0)return;var NATIVE_URL=WINDOW.URL;var NATIVE_REFLECT=WINDOW.Reflect;var SYNTHETIC_ORIGIN="https://hatch-cvm.invalid";WINDOW.URL=new Proxy(NATIVE_URL,{construct:function(target,args){if(args.length>1){var base=args[1];var baseValue=typeof base==="string"?base:base&&typeof base.href==="string"?base.href:String(base);if(baseValue.indexOf("null/")===0){var syntheticBase=new NATIVE_URL(SYNTHETIC_ORIGIN+"/"+baseValue.slice(5));var resolved=new NATIVE_URL(args[0],syntheticBase);return {href:"null"+resolved.pathname+resolved.search+resolved.hash};}}return NATIVE_REFLECT.construct(target,args);}});})();</script><script data-hatch-cvm-bridge="" nonce="">(function(){var TOKEN="fb155916-5dca-473e-b865-a5fc7e336e56";var PORT=null;var POST=null;var CLOSE=null;var RECEIVERS=new WeakMap();var ADD=window.addEventListener.bind(window);var REMOVE=window.removeEventListener.bind(window);var DISPATCH=window.dispatchEvent.bind(window);var APPLY=Reflect.apply;var WEAK_GET=WeakMap.prototype.get;var WEAK_SET=WeakMap.prototype.set;var STOP=window.Event.prototype.stopImmediatePropagation;var PREVENT=window.Event.prototype.preventDefault;var ASSIGN=Object.assign;var DEFINE=Object.defineProperty;var ERROR=Error;var STRING=String;var MESSAGE_EVENT=window.MessageEvent;var SIGNALS=Object.create(null);var SIGNAL_COUNT=0;var CONSOLE_ROWS=0;var CONSOLE_COUNTS=Object.create(null);var PENDING=[];var DELIVERY_EVENT=null;var DELIVERY_CONSUMED=false;var DELIVERY_FAILED=false;var DELIVERY_ERROR;var receiver=function(listener){var wrapped=APPLY(WEAK_GET,RECEIVERS,[listener]);if(wrapped)return wrapped;wrapped=function(event){try{if(typeof listener==="function")return APPLY(listener,window,[event]);if(listener&&typeof listener.handleEvent==="function")return listener.handleEvent(event);}catch(listenerError){if(event!==DELIVERY_EVENT)throw listenerError;if(DELIVERY_CONSUMED){DELIVERY_FAILED=true;DELIVERY_ERROR=listenerError;}}};APPLY(WEAK_SET,RECEIVERS,[listener,wrapped]);return wrapped;};window.addEventListener=function(type,listener,options){if(type!=="message"||listener==null)return ADD(type,listener,options);return ADD(type,receiver(listener),options);};window.removeEventListener=function(type,listener,options){if(type!=="message"||listener==null)return REMOVE(type,listener,options);var wrapped=APPLY(WEAK_GET,RECEIVERS,[listener]);return REMOVE(type,wrapped||listener,options);};var reply=function(data){var message=ASSIGN({bridgeToken:TOKEN},data);if(POST!==null){POST(message);return;}if(PENDING.length<14)PENDING.push(message);};var reportSignal=function(signal,resourceKind,consoleErrorKind,consoleErrorCount){var key=signal==="console_error"?signal+":"+consoleErrorKind+":"+consoleErrorCount:signal;if(SIGNAL_COUNT>=12||SIGNALS[key]||(signal==="console_error"&&CONSOLE_ROWS>=8))return;SIGNALS[key]=true;SIGNAL_COUNT+=1;if(signal==="console_error")CONSOLE_ROWS+=1;var message={type:"cvm-bridge:runtime-signal",protocol:1,signal:signal};if(resourceKind)message.resourceKind=resourceKind;if(consoleErrorKind){message.consoleErrorKind=consoleErrorKind;message.consoleErrorCount=consoleErrorCount;}reply(message);};var consoleKind=function(args){if(args.length===0)return "no_arguments";var kind=typeof args[0];if(kind==="string"||kind==="object"||kind==="function")return kind;if(kind==="number"||kind==="boolean"||kind==="bigint"||kind==="symbol"||kind==="undefined")return "primitive";return "other";};var CONSOLE=window.console;var CONSOLE_ERROR=CONSOLE&&CONSOLE.error;if(typeof CONSOLE_ERROR==="function"){try{CONSOLE.error=function(){try{var kind=consoleKind(arguments);var count=(CONSOLE_COUNTS[kind]||0)+1;CONSOLE_COUNTS[kind]=count;if(count===1||count===2||count===4||count===8||count===16||count===32)reportSignal("console_error",null,kind,count);}catch{}return APPLY(CONSOLE_ERROR,CONSOLE,arguments);};}catch{}}var resourceKind=function(target){var tag=target&&target.nodeName;if(tag==="SCRIPT")return "script";if(tag==="LINK")return target.rel&&STRING(target.rel).toLowerCase().split(/\s+/).includes("stylesheet")?"stylesheet":"other";if(tag==="IMG")return "image";if(tag==="AUDIO"||tag==="VIDEO"||tag==="SOURCE"||tag==="TRACK")return "media";if(tag==="IFRAME"||tag==="FRAME")return "frame";return "other";};var reportParsed=function(){reply({type:"cvm-bridge:document-loaded"});};var reportLoaded=function(){reportSignal("document_loaded");};ADD("pagehide",function(){reply({type:"cvm-bridge:document-unloading"});},{capture:true,once:true});ADD("error",function(runtimeErrorEvent){var target=runtimeErrorEvent.target;if(target&&target!==window&&target!==document)reportSignal("resource_load_error",resourceKind(target));else reportSignal("uncaught_exception");},true);ADD("unhandledrejection",function(){reportSignal("unhandled_rejection");});var LOCATION=window.location;var URL_CONSTRUCTOR=window.URL;var GET_ELEMENT_BY_ID=window.Document.prototype.getElementById;var GET_ELEMENTS_BY_TAG_NAME=window.Document.prototype.getElementsByTagName;var scrollToFragment=function(fragment){if(!fragment)return;var decoded=fragment;try{decoded=decodeURIComponent(fragment);}catch{}var target=APPLY(GET_ELEMENT_BY_ID,document,[fragment])||APPLY(GET_ELEMENT_BY_ID,document,[decoded]);if(!target){var anchors=APPLY(GET_ELEMENTS_BY_TAG_NAME,document,["a"]);for(var anchorIndex=0;anchorIndex<anchors.length&&!target;anchorIndex+=1){var anchorName=anchors[anchorIndex].getAttribute("name");if(anchorName===fragment||anchorName===decoded)target=anchors[anchorIndex];}}if(target){if(typeof target.scrollIntoView==="function")target.scrollIntoView();}else if(decoded.toLowerCase()==="top")window.scrollTo(0,0);};var parseUrl=function(value){if(typeof value!=="string")return null;try{return new URL_CONSTRUCTOR(value,document.baseURI);}catch{return null;}};var withoutFragment=function(href){var hashIndex=href.indexOf("#");return hashIndex===-1?href:href.slice(0,hashIndex);};var targetsThisFrame=function(target){if(target===null){var base=document.querySelector("base[target]");target=base?base.getAttribute("target"):"";}target=STRING(target).trim().toLowerCase();return target===""||target==="_self";};var OPEN_SPACE_LINK=(function(){var SCOPE={"sourceSlug":"toolbox-talk-qr","sourceOrigin":"https://muse.ai","appOrigin":"https://muse.ai","allowRelative":true};var RESOLVE=function i(e,t){if(0===e.length||e.length>2048||/[\s\\\u0000-\u001f\u007f]/.test(e)||e.startsWith("#"))return null;let r=e;if(/^https?:\/\//i.test(e)){let n=/^(https?:\/\/[^/?#]+)(\/[^#]*)?(#.*)?$/i.exec(e);if(null==n||null==n[1])return null;try{let e=new URL(n[1]);if(""!==e.username||""!==e.password||e.origin!==t.sourceOrigin&&e.origin!==t.appOrigin)return null}catch{return null}r=(n[2]??"/")+(n[3]??"")}else t.allowRelative&&/^\.\.\/[A-Za-z0-9]/.test(e)&&(r=`/spaces/v2/${e.slice(3)}`);let n=/^\/(?:spaces\/v2|space|library\/artifacts)\/([A-Za-z0-9][A-Za-z0-9_-]{0,127})\/?([?#].*)?$/.exec(r);return null==n||null==n[1]||n[1]===t.sourceSlug?null:null!=n[2]?{kind:"unsupported"}:{kind:"space",slug:n[1]}};var POST=parent.postMessage.bind(parent);var PREVENT=Event.prototype.preventDefault;var ADD=window.addEventListener.bind(window);var APPLY=Reflect.apply;var GET=Element.prototype.getAttribute;var HAS=Element.prototype.hasAttribute;var PATH=Event.prototype.composedPath;var MATCHES=Element.prototype.matches;var ROOT_PATH=location.pathname;var URL_CTOR=URL;var CHANNEL=MessageChannel;var PORT_POST=MessagePort.prototype.postMessage;var PORT_CLOSE=MessagePort.prototype.close;var PORT_START=MessagePort.prototype.start;var LISTEN=EventTarget.prototype.addEventListener;var KEY=null;var PORT=null;var close=function(){if(PORT!==null){APPLY(PORT_POST,PORT,[{type:"closed"}]);APPLY(PORT_CLOSE,PORT,[]);PORT=null;}};ADD("pagehide",close,true);if(KEY!==null){var channel=new CHANNEL();PORT=channel.port1;APPLY(LISTEN,PORT,["message",function(event){if(event.data?.type==="finished")close();}]);APPLY(PORT_START,PORT,[]);POST({type:"hatch:space:link-bootstrap",protocol:1,k:KEY},"*",[channel.port2]);var cleanUrl=new URL_CTOR(location.href);cleanUrl.searchParams.delete("__hatch_space_link_key");history.replaceState(history.state,"",cleanUrl.href);}if(!SCOPE.sourceOrigin)SCOPE.sourceOrigin=location.origin;ADD("message",function(event){if(!event.isTrusted||event.source!==parent)return;var data=event.data;if(!data||data.protocol!==1)return;if(KEY!==null&&data.type==="hatch:space:link-host-ready"){SCOPE.appOrigin=event.origin;return;}if(data.type!=="hatch:space:confirm-open"||PORT===null||data.id!==KEY||event.origin!==SCOPE.appOrigin||typeof data.challenge!=="string"||data.challenge.length!==36)return;APPLY(PORT_POST,PORT,[{type:"confirmed",challenge:data.challenge}]);});return function(event){if(!event.isTrusted||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||!navigator.userActivation?.isActive)return false;var path=APPLY(PATH,event,[]);var link=null;for(var i=0;i<path.length;i+=1){var node=path[i];if(!(node instanceof Element))continue;if(APPLY(MATCHES,node,['[inert],[disabled],[aria-disabled="true"]']))return false;if(link===null&&APPLY(MATCHES,node,["a,area"]))link=node;}if(link===null||APPLY(HAS,link,["download"]))return false;var target=APPLY(GET,link,["target"]);if(target===null){var base=document.querySelector("base[target]");target=base?APPLY(GET,base,["target"]):"";}if(!["","_self","_top","_parent","_blank"].includes((target||"").toLowerCase()))return false;var href=APPLY(GET,link,["href"])??APPLY(GET,link,["xlink:href"]);var relative=SCOPE.allowRelative&&location.pathname===ROOT_PATH;var hrefBase=document.querySelector("base[href]");if(hrefBase){try{var baseUrl=new URL_CTOR(APPLY(GET,hrefBase,["href"]),location.href);relative=relative&&!baseUrl.search&&!baseUrl.hash&&((baseUrl.origin===SCOPE.sourceOrigin&&baseUrl.pathname===ROOT_PATH)||(baseUrl.origin===SCOPE.appOrigin&&baseUrl.pathname==="/spaces/v2/"+SCOPE.sourceSlug+"/"));}catch{relative=false;}}if(typeof href!=="string"||RESOLVE(href,{...SCOPE,allowRelative:relative})===null)return false;APPLY(PREVENT,event,[]);POST({type:"hatch:space:open",protocol:1,href:href},"*");return true;};})();var guardClick=function(clickEvent){if(OPEN_SPACE_LINK(clickEvent))return;if(clickEvent.defaultPrevented||clickEvent.button!==0||clickEvent.metaKey||clickEvent.ctrlKey||clickEvent.shiftKey||clickEvent.altKey)return;var path=clickEvent.composedPath();var link=null;for(var pathIndex=0;pathIndex<path.length&&link===null;pathIndex+=1){var node=path[pathIndex];if(node&&typeof node.matches==="function"&&node.matches("a,area"))link=node;}if(link===null||!(link.hasAttribute("href")||link.hasAttribute("xlink:href"))||link.hasAttribute("download")||!targetsThisFrame(link.getAttribute("target")))return;var href=link.href;if(typeof href!=="string")href=href&&href.baseVal;var destination=parseUrl(href);if(destination!==null&&destination.protocol==="javascript:")return;APPLY(PREVENT,clickEvent,[]);if(destination!==null&&destination.href.indexOf("#")!==-1&&withoutFragment(destination.href)===withoutFragment(LOCATION.href))scrollToFragment(destination.hash.slice(1));};ADD("click",function(event){if(!event.isTrusted)guardClick(event);});(function(){var ADD=window.addEventListener.bind(window);var REMOVE=window.removeEventListener.bind(window);var PENDING=null;var finish=function(event){if(event!==PENDING)return;PENDING=null;REMOVE("click",finish);guardClick(event);};ADD("click",function(event){if(!event.isTrusted)return;PENDING=event;REMOVE("click",finish);ADD("click",finish);},true);})();ADD("submit",function(submitEvent){var form=submitEvent.target;var submitter=submitEvent.submitter;if(submitEvent.defaultPrevented||!form||form.nodeName!=="FORM")return;var formValue=function(submitterName,formName){return submitter&&submitter.hasAttribute(submitterName)?submitter.getAttribute(submitterName):form.getAttribute(formName);};if(STRING(formValue("formmethod","method")||"").trim().toLowerCase()==="dialog"||!targetsThisFrame(formValue("formtarget","target")))return;var destination=parseUrl(formValue("formaction","action")||LOCATION.href);if(destination!==null&&destination.protocol==="javascript:")return;APPLY(PREVENT,submitEvent,[]);});var WAIT_HOSTS={"ajax.googleapis.com":"google_libraries","cdn.jsdelivr.net":"jsdelivr","cdn.tailwindcss.com":"tailwind","cdnjs.cloudflare.com":"cdnjs","code.jquery.com":"jquery","esm.sh":"esm_sh","fastly.jsdelivr.net":"jsdelivr","fonts.googleapis.com":"google_fonts","fonts.gstatic.com":"google_fonts","kit.fontawesome.com":"fontawesome","unpkg.com":"unpkg","use.fontawesome.com":"fontawesome"};var HAS_OWN=Object.prototype.hasOwnProperty;var WAITING=[];var WAIT_STATE="";var WAIT_REPORTS=0;var MUTATION_OBSERVER=window.MutationObserver;var waitHost=function(element){var url=parseUrl(element.getAttribute("src")||element.getAttribute("href"));return url!==null&&APPLY(HAS_OWN,WAIT_HOSTS,[url.hostname])?WAIT_HOSTS[url.hostname]:"other";};var blocksParse=function(node){if(!node||node.nodeType!==1)return false;if(node.nodeName==="SCRIPT"){var scriptType=STRING(node.type).trim().toLowerCase();return node.hasAttribute("src")&&!node.async&&!node.defer&&(scriptType===""||scriptType.indexOf("javascript")!==-1||scriptType.indexOf("ecmascript")!==-1);}var rel=STRING(node.rel).toLowerCase().split(/\s+/);return node.nodeName==="LINK"&&node.hasAttribute("href")&&rel.includes("stylesheet")&&!rel.includes("alternate");};var postWaiting=function(){if(POST===null||WAIT_REPORTS>=64)return;WAIT_REPORTS+=1;POST({type:"cvm-bridge:document-waiting",bridgeToken:TOKEN,waiting:WAIT_STATE});};var reportWaiting=function(){var waiting=null;for(var waitIndex=0;waitIndex<WAITING.length&&waiting===null;waitIndex+=1)if(WAITING[waitIndex].nodeName==="SCRIPT")waiting=WAITING[waitIndex];if(waiting===null&&WAITING.length>0)waiting=WAITING[0];var state=waiting===null?"none":(waiting.nodeName==="SCRIPT"?"script":"stylesheet")+":"+waitHost(waiting);if(state===WAIT_STATE)return;WAIT_STATE=state;postWaiting();};var settleWaiting=function(settleEvent){var settled=WAITING.indexOf(settleEvent.target);if(settled===-1)return;WAITING.splice(settled,1);reportWaiting();};var DOCUMENT_ADD=document.addEventListener.bind(document);DOCUMENT_ADD("load",settleWaiting,true);DOCUMENT_ADD("error",settleWaiting,true);if(typeof MUTATION_OBSERVER==="function"){var WAIT_OBSERVER=new MUTATION_OBSERVER(function(records){if(document.readyState!=="loading")return;for(var recordIndex=0;recordIndex<records.length;recordIndex+=1){var added=records[recordIndex].addedNodes;for(var addedIndex=0;addedIndex<added.length;addedIndex+=1)if(blocksParse(added[addedIndex]))WAITING.push(added[addedIndex]);}reportWaiting();});WAIT_OBSERVER.observe(document,{childList:true,subtree:true});ADD("DOMContentLoaded",function(){WAIT_OBSERVER.disconnect();WAITING.length=0;reportWaiting();},{once:true});}ADD("message",function(messageEvent){var data=messageEvent.data;if(messageEvent.source!==parent||!data||typeof data!=="object"||data.bridgeToken!==TOKEN)return;if(data.type==="cvm-inner:install-bridge"&&PORT===null){APPLY(STOP,messageEvent,[]);var bridgePort=messageEvent.ports&&messageEvent.ports[0];if(!bridgePort)return;PORT=bridgePort;POST=PORT.postMessage.bind(PORT);CLOSE=PORT.close;for(var pendingIndex=0;pendingIndex<PENDING.length;pendingIndex+=1)POST(PENDING[pendingIndex]);PENDING.length=0;if(WAIT_STATE!=="")postWaiting();PORT.onmessage=function(portEvent){var portData=portEvent.data;if(!portData||typeof portData!=="object"||portData.bridgeToken!==TOKEN)return;if(portData.type!=="cvm-bridge:init-port"||typeof portData.id!=="string")return;var tunnel=portEvent.ports&&portEvent.ports[0];if(!tunnel){reply({type:"cvm-bridge:tunnel-failed",id:portData.id,message:"Missing tunnel port"});return;}var consumed=false;var receiverEvent=new MESSAGE_EVENT("message",{data:{type:"bundle:init-port"},source:null});DEFINE(receiverEvent,"ports",{get:function(){consumed=true;DELIVERY_CONSUMED=true;APPLY(STOP,receiverEvent,[]);return [tunnel];}});try{DELIVERY_EVENT=receiverEvent;DELIVERY_CONSUMED=false;DELIVERY_FAILED=false;DELIVERY_ERROR=undefined;DISPATCH(receiverEvent);DELIVERY_EVENT=null;if(DELIVERY_FAILED)throw DELIVERY_ERROR;if(!consumed)throw new ERROR("Missing bundle tunnel receiver");reply({type:"cvm-bridge:tunnel-ready",id:portData.id});}catch(err){DELIVERY_EVENT=null;try{APPLY(CLOSE,tunnel,[]);}catch{}var errorMessage;try{errorMessage=err&&typeof err==="object"&&typeof err.message==="string"?err.message:STRING(err);}catch{errorMessage="Bundle tunnel receiver failed";}reply({type:"cvm-bridge:tunnel-failed",id:portData.id,message:errorMessage});}};PORT.start();if(document.readyState==="loading")ADD("DOMContentLoaded",reportParsed,{once:true});else reportParsed();if(document.readyState==="complete")reportLoaded();else ADD("load",reportLoaded,{once:true});return;}if(data.type!=="cvm-bridge:confirm-document"||PORT===null||typeof data.id!=="string")return;reply({type:"cvm-bridge:document-confirmed",id:data.id});});ADD("error",function(errorEvent){if(DELIVERY_EVENT===null||!DELIVERY_CONSUMED)return;DELIVERY_FAILED=true;DELIVERY_ERROR=errorEvent.error||new ERROR(errorEvent.message||"Bundle tunnel receiver failed");APPLY(PREVENT,errorEvent,[]);},{capture:true});parent.postMessage({type:"cvm-inner:document-ready",bridgeToken:TOKEN},"*");})();</script><style>html img,html video,html canvas{height:revert-layer}</style>
+<html lang="en" data-hatch-color-scheme="light" data-hatch-accent="blue"><head><script data-hatch-cvm-opaque-url-compat="" nonce="">(function(){var WINDOW=window;var HREF=WINDOW.location&&WINDOW.location.href;if(typeof HREF!=="string"||HREF.indexOf("blob:null/")!==0)return;var NATIVE_URL=WINDOW.URL;var NATIVE_REFLECT=WINDOW.Reflect;var SYNTHETIC_ORIGIN="https://hatch-cvm.invalid";WINDOW.URL=new Proxy(NATIVE_URL,{construct:function(target,args){if(args.length>1){var base=args[1];var baseValue=typeof base==="string"?base:base&&typeof base.href==="string"?base.href:String(base);if(baseValue.indexOf("null/")===0){var syntheticBase=new NATIVE_URL(SYNTHETIC_ORIGIN+"/"+baseValue.slice(5));var resolved=new NATIVE_URL(args[0],syntheticBase);return {href:"null"+resolved.pathname+resolved.search+resolved.hash};}}return NATIVE_REFLECT.construct(target,args);}});})();</script><script data-hatch-cvm-bridge="" nonce="">(function(){var TOKEN="850ed66d-2dcc-4d8a-9739-4a5ccda1bc77";var PORT=null;var POST=null;var CLOSE=null;var RECEIVERS=new WeakMap();var ADD=window.addEventListener.bind(window);var REMOVE=window.removeEventListener.bind(window);var DISPATCH=window.dispatchEvent.bind(window);var APPLY=Reflect.apply;var WEAK_GET=WeakMap.prototype.get;var WEAK_SET=WeakMap.prototype.set;var STOP=window.Event.prototype.stopImmediatePropagation;var PREVENT=window.Event.prototype.preventDefault;var ASSIGN=Object.assign;var DEFINE=Object.defineProperty;var ERROR=Error;var STRING=String;var MESSAGE_EVENT=window.MessageEvent;var SIGNALS=Object.create(null);var SIGNAL_COUNT=0;var CONSOLE_ROWS=0;var CONSOLE_COUNTS=Object.create(null);var PENDING=[];var DELIVERY_EVENT=null;var DELIVERY_CONSUMED=false;var DELIVERY_FAILED=false;var DELIVERY_ERROR;var receiver=function(listener){var wrapped=APPLY(WEAK_GET,RECEIVERS,[listener]);if(wrapped)return wrapped;wrapped=function(event){try{if(typeof listener==="function")return APPLY(listener,window,[event]);if(listener&&typeof listener.handleEvent==="function")return listener.handleEvent(event);}catch(listenerError){if(event!==DELIVERY_EVENT)throw listenerError;if(DELIVERY_CONSUMED){DELIVERY_FAILED=true;DELIVERY_ERROR=listenerError;}}};APPLY(WEAK_SET,RECEIVERS,[listener,wrapped]);return wrapped;};window.addEventListener=function(type,listener,options){if(type!=="message"||listener==null)return ADD(type,listener,options);return ADD(type,receiver(listener),options);};window.removeEventListener=function(type,listener,options){if(type!=="message"||listener==null)return REMOVE(type,listener,options);var wrapped=APPLY(WEAK_GET,RECEIVERS,[listener]);return REMOVE(type,wrapped||listener,options);};var reply=function(data){var message=ASSIGN({bridgeToken:TOKEN},data);if(POST!==null){POST(message);return;}if(PENDING.length<14)PENDING.push(message);};var reportSignal=function(signal,resourceKind,consoleErrorKind,consoleErrorCount){var key=signal==="console_error"?signal+":"+consoleErrorKind+":"+consoleErrorCount:signal;if(SIGNAL_COUNT>=12||SIGNALS[key]||(signal==="console_error"&&CONSOLE_ROWS>=8))return;SIGNALS[key]=true;SIGNAL_COUNT+=1;if(signal==="console_error")CONSOLE_ROWS+=1;var message={type:"cvm-bridge:runtime-signal",protocol:1,signal:signal};if(resourceKind)message.resourceKind=resourceKind;if(consoleErrorKind){message.consoleErrorKind=consoleErrorKind;message.consoleErrorCount=consoleErrorCount;}reply(message);};var consoleKind=function(args){if(args.length===0)return "no_arguments";var kind=typeof args[0];if(kind==="string"||kind==="object"||kind==="function")return kind;if(kind==="number"||kind==="boolean"||kind==="bigint"||kind==="symbol"||kind==="undefined")return "primitive";return "other";};var CONSOLE=window.console;var CONSOLE_ERROR=CONSOLE&&CONSOLE.error;if(typeof CONSOLE_ERROR==="function"){try{CONSOLE.error=function(){try{var kind=consoleKind(arguments);var count=(CONSOLE_COUNTS[kind]||0)+1;CONSOLE_COUNTS[kind]=count;if(count===1||count===2||count===4||count===8||count===16||count===32)reportSignal("console_error",null,kind,count);}catch{}return APPLY(CONSOLE_ERROR,CONSOLE,arguments);};}catch{}}var resourceKind=function(target){var tag=target&&target.nodeName;if(tag==="SCRIPT")return "script";if(tag==="LINK")return target.rel&&STRING(target.rel).toLowerCase().split(/\s+/).includes("stylesheet")?"stylesheet":"other";if(tag==="IMG")return "image";if(tag==="AUDIO"||tag==="VIDEO"||tag==="SOURCE"||tag==="TRACK")return "media";if(tag==="IFRAME"||tag==="FRAME")return "frame";return "other";};var reportParsed=function(){reply({type:"cvm-bridge:document-loaded"});};var reportLoaded=function(){reportSignal("document_loaded");};ADD("pagehide",function(){reply({type:"cvm-bridge:document-unloading"});},{capture:true,once:true});ADD("error",function(runtimeErrorEvent){var target=runtimeErrorEvent.target;if(target&&target!==window&&target!==document)reportSignal("resource_load_error",resourceKind(target));else reportSignal("uncaught_exception");},true);ADD("unhandledrejection",function(){reportSignal("unhandled_rejection");});var LOCATION=window.location;var URL_CONSTRUCTOR=window.URL;var GET_ELEMENT_BY_ID=window.Document.prototype.getElementById;var GET_ELEMENTS_BY_TAG_NAME=window.Document.prototype.getElementsByTagName;var scrollToFragment=function(fragment){if(!fragment)return;var decoded=fragment;try{decoded=decodeURIComponent(fragment);}catch{}var target=APPLY(GET_ELEMENT_BY_ID,document,[fragment])||APPLY(GET_ELEMENT_BY_ID,document,[decoded]);if(!target){var anchors=APPLY(GET_ELEMENTS_BY_TAG_NAME,document,["a"]);for(var anchorIndex=0;anchorIndex<anchors.length&&!target;anchorIndex+=1){var anchorName=anchors[anchorIndex].getAttribute("name");if(anchorName===fragment||anchorName===decoded)target=anchors[anchorIndex];}}if(target){if(typeof target.scrollIntoView==="function")target.scrollIntoView();}else if(decoded.toLowerCase()==="top")window.scrollTo(0,0);};var parseUrl=function(value){if(typeof value!=="string")return null;try{return new URL_CONSTRUCTOR(value,document.baseURI);}catch{return null;}};var withoutFragment=function(href){var hashIndex=href.indexOf("#");return hashIndex===-1?href:href.slice(0,hashIndex);};var targetsThisFrame=function(target){if(target===null){var base=document.querySelector("base[target]");target=base?base.getAttribute("target"):"";}target=STRING(target).trim().toLowerCase();return target===""||target==="_self";};var OPEN_SPACE_LINK=(function(){var SCOPE={"sourceSlug":"toolbox-talk-qr","sourceOrigin":"https://muse.ai","appOrigin":"https://muse.ai","allowRelative":true};var RESOLVE=function i(e,t){if(0===e.length||e.length>2048||/[\s\\\u0000-\u001f\u007f]/.test(e)||e.startsWith("#"))return null;let r=e;if(/^https?:\/\//i.test(e)){let n=/^(https?:\/\/[^/?#]+)(\/[^#]*)?(#.*)?$/i.exec(e);if(null==n||null==n[1])return null;try{let e=new URL(n[1]);if(""!==e.username||""!==e.password||e.origin!==t.sourceOrigin&&e.origin!==t.appOrigin)return null}catch{return null}r=(n[2]??"/")+(n[3]??"")}else t.allowRelative&&/^\.\.\/[A-Za-z0-9]/.test(e)&&(r=`/spaces/v2/${e.slice(3)}`);let n=/^\/(?:spaces\/v2|space|library\/artifacts)\/([A-Za-z0-9][A-Za-z0-9_-]{0,127})\/?([?#].*)?$/.exec(r);return null==n||null==n[1]||n[1]===t.sourceSlug?null:null!=n[2]?{kind:"unsupported"}:{kind:"space",slug:n[1]}};var POST=parent.postMessage.bind(parent);var PREVENT=Event.prototype.preventDefault;var ADD=window.addEventListener.bind(window);var APPLY=Reflect.apply;var GET=Element.prototype.getAttribute;var HAS=Element.prototype.hasAttribute;var PATH=Event.prototype.composedPath;var MATCHES=Element.prototype.matches;var ROOT_PATH=location.pathname;var URL_CTOR=URL;var CHANNEL=MessageChannel;var PORT_POST=MessagePort.prototype.postMessage;var PORT_CLOSE=MessagePort.prototype.close;var PORT_START=MessagePort.prototype.start;var LISTEN=EventTarget.prototype.addEventListener;var KEY=null;var PORT=null;var close=function(){if(PORT!==null){APPLY(PORT_POST,PORT,[{type:"closed"}]);APPLY(PORT_CLOSE,PORT,[]);PORT=null;}};ADD("pagehide",close,true);if(KEY!==null){var channel=new CHANNEL();PORT=channel.port1;APPLY(LISTEN,PORT,["message",function(event){if(event.data?.type==="finished")close();}]);APPLY(PORT_START,PORT,[]);POST({type:"hatch:space:link-bootstrap",protocol:1,k:KEY},"*",[channel.port2]);var cleanUrl=new URL_CTOR(location.href);cleanUrl.searchParams.delete("__hatch_space_link_key");history.replaceState(history.state,"",cleanUrl.href);}if(!SCOPE.sourceOrigin)SCOPE.sourceOrigin=location.origin;ADD("message",function(event){if(!event.isTrusted||event.source!==parent)return;var data=event.data;if(!data||data.protocol!==1)return;if(KEY!==null&&data.type==="hatch:space:link-host-ready"){SCOPE.appOrigin=event.origin;return;}if(data.type!=="hatch:space:confirm-open"||PORT===null||data.id!==KEY||event.origin!==SCOPE.appOrigin||typeof data.challenge!=="string"||data.challenge.length!==36)return;APPLY(PORT_POST,PORT,[{type:"confirmed",challenge:data.challenge}]);});return function(event){if(!event.isTrusted||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||!navigator.userActivation?.isActive)return false;var path=APPLY(PATH,event,[]);var link=null;for(var i=0;i<path.length;i+=1){var node=path[i];if(!(node instanceof Element))continue;if(APPLY(MATCHES,node,['[inert],[disabled],[aria-disabled="true"]']))return false;if(link===null&&APPLY(MATCHES,node,["a,area"]))link=node;}if(link===null||APPLY(HAS,link,["download"]))return false;var target=APPLY(GET,link,["target"]);if(target===null){var base=document.querySelector("base[target]");target=base?APPLY(GET,base,["target"]):"";}if(!["","_self","_top","_parent","_blank"].includes((target||"").toLowerCase()))return false;var href=APPLY(GET,link,["href"])??APPLY(GET,link,["xlink:href"]);var relative=SCOPE.allowRelative&&location.pathname===ROOT_PATH;var hrefBase=document.querySelector("base[href]");if(hrefBase){try{var baseUrl=new URL_CTOR(APPLY(GET,hrefBase,["href"]),location.href);relative=relative&&!baseUrl.search&&!baseUrl.hash&&((baseUrl.origin===SCOPE.sourceOrigin&&baseUrl.pathname===ROOT_PATH)||(baseUrl.origin===SCOPE.appOrigin&&baseUrl.pathname==="/spaces/v2/"+SCOPE.sourceSlug+"/"));}catch{relative=false;}}if(typeof href!=="string"||RESOLVE(href,{...SCOPE,allowRelative:relative})===null)return false;APPLY(PREVENT,event,[]);POST({type:"hatch:space:open",protocol:1,href:href},"*");return true;};})();var guardClick=function(clickEvent){if(OPEN_SPACE_LINK(clickEvent))return;if(clickEvent.defaultPrevented||clickEvent.button!==0||clickEvent.metaKey||clickEvent.ctrlKey||clickEvent.shiftKey||clickEvent.altKey)return;var path=clickEvent.composedPath();var link=null;for(var pathIndex=0;pathIndex<path.length&&link===null;pathIndex+=1){var node=path[pathIndex];if(node&&typeof node.matches==="function"&&node.matches("a,area"))link=node;}if(link===null||!(link.hasAttribute("href")||link.hasAttribute("xlink:href"))||link.hasAttribute("download")||!targetsThisFrame(link.getAttribute("target")))return;var href=link.href;if(typeof href!=="string")href=href&&href.baseVal;var destination=parseUrl(href);if(destination!==null&&destination.protocol==="javascript:")return;APPLY(PREVENT,clickEvent,[]);if(destination!==null&&destination.href.indexOf("#")!==-1&&withoutFragment(destination.href)===withoutFragment(LOCATION.href))scrollToFragment(destination.hash.slice(1));};ADD("click",function(event){if(!event.isTrusted)guardClick(event);});(function(){var ADD=window.addEventListener.bind(window);var REMOVE=window.removeEventListener.bind(window);var PENDING=null;var finish=function(event){if(event!==PENDING)return;PENDING=null;REMOVE("click",finish);guardClick(event);};ADD("click",function(event){if(!event.isTrusted)return;PENDING=event;REMOVE("click",finish);ADD("click",finish);},true);})();ADD("submit",function(submitEvent){var form=submitEvent.target;var submitter=submitEvent.submitter;if(submitEvent.defaultPrevented||!form||form.nodeName!=="FORM")return;var formValue=function(submitterName,formName){return submitter&&submitter.hasAttribute(submitterName)?submitter.getAttribute(submitterName):form.getAttribute(formName);};if(STRING(formValue("formmethod","method")||"").trim().toLowerCase()==="dialog"||!targetsThisFrame(formValue("formtarget","target")))return;var destination=parseUrl(formValue("formaction","action")||LOCATION.href);if(destination!==null&&destination.protocol==="javascript:")return;APPLY(PREVENT,submitEvent,[]);});var WAIT_HOSTS={"ajax.googleapis.com":"google_libraries","cdn.jsdelivr.net":"jsdelivr","cdn.tailwindcss.com":"tailwind","cdnjs.cloudflare.com":"cdnjs","code.jquery.com":"jquery","esm.sh":"esm_sh","fastly.jsdelivr.net":"jsdelivr","fonts.googleapis.com":"google_fonts","fonts.gstatic.com":"google_fonts","kit.fontawesome.com":"fontawesome","unpkg.com":"unpkg","use.fontawesome.com":"fontawesome"};var HAS_OWN=Object.prototype.hasOwnProperty;var WAITING=[];var WAIT_STATE="";var WAIT_REPORTS=0;var MUTATION_OBSERVER=window.MutationObserver;var waitHost=function(element){var url=parseUrl(element.getAttribute("src")||element.getAttribute("href"));return url!==null&&APPLY(HAS_OWN,WAIT_HOSTS,[url.hostname])?WAIT_HOSTS[url.hostname]:"other";};var blocksParse=function(node){if(!node||node.nodeType!==1)return false;if(node.nodeName==="SCRIPT"){var scriptType=STRING(node.type).trim().toLowerCase();return node.hasAttribute("src")&&!node.async&&!node.defer&&(scriptType===""||scriptType.indexOf("javascript")!==-1||scriptType.indexOf("ecmascript")!==-1);}var rel=STRING(node.rel).toLowerCase().split(/\s+/);return node.nodeName==="LINK"&&node.hasAttribute("href")&&rel.includes("stylesheet")&&!rel.includes("alternate");};var postWaiting=function(){if(POST===null||WAIT_REPORTS>=64)return;WAIT_REPORTS+=1;POST({type:"cvm-bridge:document-waiting",bridgeToken:TOKEN,waiting:WAIT_STATE});};var reportWaiting=function(){var waiting=null;for(var waitIndex=0;waitIndex<WAITING.length&&waiting===null;waitIndex+=1)if(WAITING[waitIndex].nodeName==="SCRIPT")waiting=WAITING[waitIndex];if(waiting===null&&WAITING.length>0)waiting=WAITING[0];var state=waiting===null?"none":(waiting.nodeName==="SCRIPT"?"script":"stylesheet")+":"+waitHost(waiting);if(state===WAIT_STATE)return;WAIT_STATE=state;postWaiting();};var settleWaiting=function(settleEvent){var settled=WAITING.indexOf(settleEvent.target);if(settled===-1)return;WAITING.splice(settled,1);reportWaiting();};var DOCUMENT_ADD=document.addEventListener.bind(document);DOCUMENT_ADD("load",settleWaiting,true);DOCUMENT_ADD("error",settleWaiting,true);if(typeof MUTATION_OBSERVER==="function"){var WAIT_OBSERVER=new MUTATION_OBSERVER(function(records){if(document.readyState!=="loading")return;for(var recordIndex=0;recordIndex<records.length;recordIndex+=1){var added=records[recordIndex].addedNodes;for(var addedIndex=0;addedIndex<added.length;addedIndex+=1)if(blocksParse(added[addedIndex]))WAITING.push(added[addedIndex]);}reportWaiting();});WAIT_OBSERVER.observe(document,{childList:true,subtree:true});ADD("DOMContentLoaded",function(){WAIT_OBSERVER.disconnect();WAITING.length=0;reportWaiting();},{once:true});}ADD("message",function(messageEvent){var data=messageEvent.data;if(messageEvent.source!==parent||!data||typeof data!=="object"||data.bridgeToken!==TOKEN)return;if(data.type==="cvm-inner:install-bridge"&&PORT===null){APPLY(STOP,messageEvent,[]);var bridgePort=messageEvent.ports&&messageEvent.ports[0];if(!bridgePort)return;PORT=bridgePort;POST=PORT.postMessage.bind(PORT);CLOSE=PORT.close;for(var pendingIndex=0;pendingIndex<PENDING.length;pendingIndex+=1)POST(PENDING[pendingIndex]);PENDING.length=0;if(WAIT_STATE!=="")postWaiting();PORT.onmessage=function(portEvent){var portData=portEvent.data;if(!portData||typeof portData!=="object"||portData.bridgeToken!==TOKEN)return;if(portData.type!=="cvm-bridge:init-port"||typeof portData.id!=="string")return;var tunnel=portEvent.ports&&portEvent.ports[0];if(!tunnel){reply({type:"cvm-bridge:tunnel-failed",id:portData.id,message:"Missing tunnel port"});return;}var consumed=false;var receiverEvent=new MESSAGE_EVENT("message",{data:{type:"bundle:init-port"},source:null});DEFINE(receiverEvent,"ports",{get:function(){consumed=true;DELIVERY_CONSUMED=true;APPLY(STOP,receiverEvent,[]);return [tunnel];}});try{DELIVERY_EVENT=receiverEvent;DELIVERY_CONSUMED=false;DELIVERY_FAILED=false;DELIVERY_ERROR=undefined;DISPATCH(receiverEvent);DELIVERY_EVENT=null;if(DELIVERY_FAILED)throw DELIVERY_ERROR;if(!consumed)throw new ERROR("Missing bundle tunnel receiver");reply({type:"cvm-bridge:tunnel-ready",id:portData.id});}catch(err){DELIVERY_EVENT=null;try{APPLY(CLOSE,tunnel,[]);}catch{}var errorMessage;try{errorMessage=err&&typeof err==="object"&&typeof err.message==="string"?err.message:STRING(err);}catch{errorMessage="Bundle tunnel receiver failed";}reply({type:"cvm-bridge:tunnel-failed",id:portData.id,message:errorMessage});}};PORT.start();if(document.readyState==="loading")ADD("DOMContentLoaded",reportParsed,{once:true});else reportParsed();if(document.readyState==="complete")reportLoaded();else ADD("load",reportLoaded,{once:true});return;}if(data.type!=="cvm-bridge:confirm-document"||PORT===null||typeof data.id!=="string")return;reply({type:"cvm-bridge:document-confirmed",id:data.id});});ADD("error",function(errorEvent){if(DELIVERY_EVENT===null||!DELIVERY_CONSUMED)return;DELIVERY_FAILED=true;DELIVERY_ERROR=errorEvent.error||new ERROR(errorEvent.message||"Bundle tunnel receiver failed");APPLY(PREVENT,errorEvent,[]);},{capture:true});parent.postMessage({type:"cvm-inner:document-ready",bridgeToken:TOKEN},"*");})();</script><style>html img,html video,html canvas{height:revert-layer}</style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="color-scheme" content="light dark">
@@ -256,7 +256,7 @@
           <!-- ================= TALKS ================= -->
           <section class="view" id="view-talks" aria-label="Toolbox talks">
             <h2 class="section-title">Toolbox Talks</h2>
-            <p class="lede">The talks loaded into this file. Add one by typing it, pasting it, or importing a document — Word, PDF, and text files fill the form in for you. Saving a talk also puts it on the schedule using the date below, so there is no separate step to remember.</p>
+            <p class="lede">Add a talk by typing it, pasting it, or importing a document — Word, PDF, and text files fill the form in for you. Saving a talk also puts it on the schedule using the date below. To publish new talks to phones, go to Settings and download the small talks file (<code>talks.json</code>), then upload just that file to GitHub — no need to re-download the whole app.</p>
 
             <div class="card">
               <h3 id="talk-form-title">Add a talk</h3>
@@ -357,7 +357,7 @@
           <!-- ================= QR ACCESS ================= -->
           <section class="view" id="view-qr" aria-label="QR access">
             <h2 class="section-title">QR Access — the one posted code</h2>
-            <p class="lede">This file gets hosted at one web address. The permanent QR code encodes only that address, plus <code>#today</code> so a scan opens straight on the talk due that day. Print it once and post it — when talks or the schedule change, you overwrite the hosted file at the same address and the printed code keeps working.</p>
+            <p class="lede">This file gets hosted at one web address. The permanent QR code encodes only that address, plus <code>#today</code> so a scan opens straight on the talk due that day. Print it once and post it — when talks change, you now just upload a new small <code>talks.json</code> file next to the app (see Settings), and the printed code keeps working without re-uploading the whole app.</p>
 
             <div class="card">
               <h3>1. Host this file, then paste its address</h3>
@@ -387,20 +387,22 @@
             </div>
 
             <div class="card flat">
-              <h3>Keeping the code working</h3>
+              <h3>Keeping the code working — new way (talks file)</h3>
+              <p class="small">You no longer need to re-download the whole app when you add a talk. Talks now live in a separate small file called <code>talks.json</code> that sits next to the app on GitHub Pages. The phone fetches that file live on every scan.</p>
               <ol class="steps">
-                <li>Make your changes here — talks, schedule, settings.</li>
-                <li>In Settings, use <strong>Download this file</strong>. Your talks, schedule, and settings are baked into the downloaded copy.</li>
-                <li>Upload that copy over the old file at the <strong>same hosted address</strong>.</li>
-                <li>Scan the posted code once to confirm the new talk shows. The code itself never changes.</li>
+                <li>Make your changes here — add or edit talks and schedule on the Talks / Schedule tabs.</li>
+                <li>In Settings, use <strong>Download talks file (talks.json)</strong>. It's a tiny file — just your talks and schedule.</li>
+                <li>On GitHub, go to your <strong>Toolbox-Talk</strong> repo, click <strong>Add file → Upload files</strong>, drop in <code>talks.json</code> (same name, same folder as the app file), and commit. It replaces the old talks file.</li>
+                <li>Scan the posted code — the phone loads the new talks file straight away. The app file and the printed QR code do not change.</li>
               </ol>
+              <p class="small">You only need “Download this file” (the whole app) again if the app itself changes or you change the company / presenter names in a way you want baked into the app file. Day-to-day talk updates are just the talks file.</p>
             </div>
           </section>
 
           <!-- ================= SETTINGS ================= -->
           <section class="view" id="view-settings" aria-label="Settings">
             <h2 class="section-title">Settings</h2>
-            <p class="lede">Company and presenter print on the talk sheet and the poster. Everything is saved in this browser on this device — use Download this file to carry it to the hosted copy.</p>
+            <p class="lede">Company and presenter print on the talk sheet and the poster. Talks are saved in this browser on this device — use the talks file below to publish them to phones without re-uploading the whole app.</p>
 
             <div class="card">
               <label class="field">
@@ -421,9 +423,28 @@
               <div class="msg" id="set-msg"></div>
             </div>
 
+            <div class="card" id="talks-file-card">
+              <h3>Phone updates — talks file (talks.json)</h3>
+              <p class="small">This is the new way to update phones. Your talks and schedule live in a separate small file, <code>talks.json</code>, hosted next to the app. When someone scans the QR code, the phone fetches that file live (bypassing its cache), so a new talk shows up as soon as the new talks file is uploaded — no re-downloading the whole app.</p>
+              <p class="small" style="margin-top:10px">Talks file address the phone will load:<br><code id="talks-file-url">— set the hosted address above first —</code></p>
+              <div class="msg" id="talks-sync-msg"></div>
+              <div class="msg" id="talks-live-msg"></div>
+              <ol class="steps">
+                <li>Add or edit talks as normal on the Talks and Schedule tabs.</li>
+                <li>Click <strong>Download talks file</strong> below — you get one small file named <code>talks.json</code>.</li>
+                <li>On GitHub, open your <strong>Toolbox-Talk</strong> repo → <strong>Add file → Upload files</strong> → drop in <code>talks.json</code> → <strong>Commit changes</strong>. Keep the name exactly <code>talks.json</code> and put it in the same folder as the app file (the top level of the repo).</li>
+                <li>Wait about a minute for GitHub Pages to update, then scan the posted QR code. The phone should show the new talk. The printed QR code does not change.</li>
+              </ol>
+              <div class="btn-row">
+                <button class="btn primary" id="btn-download-talks">Download talks file (talks.json)</button>
+                <button class="btn" id="btn-refresh-live">Check live talks file now</button>
+              </div>
+              <p class="small">First time only: you need to upload the updated app file once (using “Download this file” below) so the hosted app knows to look for <code>talks.json</code>. After that one upload, day-to-day updates are talks-file only. If the live talks file isn't found yet, the phone falls back to the talks baked into the app file, so nothing breaks in between.</p>
+            </div>
+
             <div class="card">
-              <h3>Move this file</h3>
-              <p class="small">Download this file bakes your current talks, schedule, and settings into the copy, so the hosted version opens with everything in it — including on phones and browsers that opened an older copy before: they pick up the new talks and schedule from the updated file, so the posted QR code shows the current talk.</p>
+              <h3>Move this file — whole app (only when the app itself changes)</h3>
+              <p class="small">Download this file bakes your current talks, schedule, and settings into a full copy of the app. You only need this when the app code changes, or for that first upload to switch on the talks-file system above. For adding talks, use the talks file instead — it's much smaller and faster to upload.</p>
               <div class="btn-row">
                 <button class="btn primary" id="btn-download-file">Download this file</button>
                 <button class="btn" id="btn-export">Export backup (.json)</button>
@@ -446,7 +467,7 @@
     <div class="toast" id="toast" role="status"></div>
 
     <!-- Data baked into a downloaded copy lives here. {} = nothing baked in. -->
-    <script type="application/json" id="embedded-data">{"settings":{"company":"","presenter":"","hostedUrl":"https://pputnam123.github.io/Toolbox-Talk/"},"talks":[],"schedule":[],"bakeStamp":1795113299923}</script>
+    <script type="application/json" id="embedded-data">{"settings":{"company":"","presenter":"","hostedUrl":"https://pputnam123.github.io/Toolbox-Talk/"},"talks":[],"schedule":[],"bakeStamp":1795115814936,"updatedAt":0,"talksFileExportedAt":0}</script>
 
     
     
@@ -2001,12 +2022,17 @@ var state = {
   },
   talks: [],
   schedule: [],
-  bakeStamp: 0
+  bakeStamp: 0,
+  updatedAt: 0,
+  talksFileExportedAt: 0
 };
 var editingTalkId = null;
 var todayTalkId = null;
 var pendingScheduleTalkId = null;
 var bakedSnapshot = null;
+var liveTalksData = null;
+var liveTalksStatus = 'unknown';
+var TALKS_FILE_NAME = 'talks.json';
 function uid() {
   return 'id-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
 }
@@ -2068,7 +2094,47 @@ function normalize(s) {
     },
     talks: Array.isArray(s.talks) ? s.talks : [],
     schedule: Array.isArray(s.schedule) ? s.schedule : [],
-    bakeStamp: s && typeof s.bakeStamp === 'number' ? s.bakeStamp : 0
+    bakeStamp: s && typeof s.bakeStamp === 'number' ? s.bakeStamp : 0,
+    updatedAt: s && typeof s.updatedAt === 'number' ? s.updatedAt : 0,
+    talksFileExportedAt: s && typeof s.talksFileExportedAt === 'number' ? s.talksFileExportedAt : 0
+  };
+}
+function markUpdated() {
+  state.updatedAt = Date.now();
+}
+function talksHash(talks, schedule) {
+  try {
+    return JSON.stringify(talks || []) + '|' + JSON.stringify(schedule || []);
+  } catch (e) {
+    return '';
+  }
+}
+function talksFileUrl() {
+  var hosted = (state.settings && state.settings.hostedUrl || '').trim();
+  if (hosted) {
+    if (/\.html?($|\?)/i.test(hosted)) return hosted.replace(/[^\/]*\.html?/i, TALKS_FILE_NAME).split('?')[0];
+    return hosted.replace(/\/?$/, '/') + TALKS_FILE_NAME;
+  }
+  try {
+    var base = window.location.href.split('#')[0].split('?')[0];
+    if (/\.html?$/i.test(base)) base = base.replace(/[^\/]*\.html?$/i, '');else if (base.slice(-1) !== '/') base += '/';
+    return base + TALKS_FILE_NAME;
+  } catch (e) {
+    return TALKS_FILE_NAME;
+  }
+}
+function talksFilePayload() {
+  return {
+    version: 1,
+    updatedAt: state.updatedAt || Date.now(),
+    exportedAt: new Date().toISOString(),
+    settings: {
+      company: state.settings.company || '',
+      presenter: state.settings.presenter || '',
+      hostedUrl: state.settings.hostedUrl || ''
+    },
+    talks: state.talks,
+    schedule: state.schedule
   };
 }
 function saveState() {
@@ -2123,6 +2189,139 @@ function refreshFromHostedCopy() {
     if (brand) brand.textContent = state.settings.company ? state.settings.company + ' · Toolbox Talk' : 'Toolbox Talk';
     renderToday();
   }).catch(function () {});
+}
+var liveFetchInFlight = false;
+function fetchLiveTalks(reason) {
+  if (liveFetchInFlight) return;
+  if (!/^https?:$/.test(window.location.protocol || '')) {
+    liveTalksStatus = 'local-file';
+    renderTalksSync();
+    return;
+  }
+  if (typeof fetch !== 'function') return;
+  liveFetchInFlight = true;
+  var url = talksFileUrl();
+  var bust = url + (url.indexOf('?') === -1 ? '?' : '&') + 't=' + Date.now();
+  __tunnel.fetch(bust, {
+    cache: 'no-store'
+  }).then(function (r) {
+    if (!r.ok) throw new Error('http ' + r.status);
+    return r.json();
+  }).then(function (parsed) {
+    liveFetchInFlight = false;
+    if (!parsed || typeof parsed !== 'object' || !Array.isArray(parsed.talks) && !Array.isArray(parsed.schedule)) throw new Error('shape');
+    var srv = normalize(parsed);
+    if (!srv.updatedAt && parsed.exportedAt) {
+      var t = Date.parse(parsed.exportedAt);
+      if (!isNaN(t)) srv.updatedAt = t;
+    }
+    liveTalksData = srv;
+    liveTalksStatus = 'found';
+    var isTrainee = document.body.classList.contains('trainee');
+    var same = talksHash(srv.talks, srv.schedule) === talksHash(state.talks, state.schedule);
+    if (same) {
+      renderTalksSync();
+      return;
+    }
+    var shouldAdopt = false;
+    if (srv.talks.length || srv.schedule.length) {
+      if (isTrainee) shouldAdopt = true;else if (!state.talks.length && !state.schedule.length) shouldAdopt = true;else if (srv.updatedAt && state.updatedAt && srv.updatedAt > state.updatedAt) shouldAdopt = true;else if (srv.updatedAt && !state.updatedAt) shouldAdopt = true;else if (reason === 'manual') shouldAdopt = true;
+    }
+    if (shouldAdopt) {
+      state.talks = srv.talks;
+      state.schedule = srv.schedule;
+      if (srv.updatedAt) state.updatedAt = srv.updatedAt;
+      var keys = ['company', 'presenter', 'hostedUrl'];
+      for (var i = 0; i < keys.length; i++) {
+        if (srv.settings[keys[i]]) state.settings[keys[i]] = srv.settings[keys[i]];
+      }
+      saveState();
+      var brand = document.getElementById('trainee-brand');
+      if (brand) brand.textContent = state.settings.company ? state.settings.company + ' · Toolbox Talk' : 'Toolbox Talk';
+      renderToday();
+      if (document.getElementById('view-talks') && document.getElementById('view-talks').classList.contains('active')) renderTalks();
+      if (document.getElementById('view-schedule') && document.getElementById('view-schedule').classList.contains('active')) renderSchedule();
+    }
+    renderTalksSync();
+    if (reason === 'manual') {
+      if (shouldAdopt) toast('Loaded the live talks file — ' + srv.talks.length + ' talk(s) now showing.');else if (same) toast('Live talks file matches what you already have here.');else toast('Live talks file found, but your local talks are newer — kept your local copy. Download a fresh talks file to publish them.');
+    }
+  }).catch(function () {
+    liveFetchInFlight = false;
+    if (liveTalksStatus !== 'found') liveTalksStatus = 'missing';
+    renderTalksSync();
+    if (document.body.classList.contains('trainee')) {
+      hostedRefreshDone = false;
+      refreshFromHostedCopy();
+    }
+    if (reason === 'manual') toast('No live talks file found yet at talks.json — upload one first (see Settings). Showing the talks saved here / baked into the app.');
+  });
+}
+function downloadTalksFile() {
+  if (!state.updatedAt) markUpdated();
+  var payload = talksFilePayload();
+  var blob = new Blob([JSON.stringify(payload, null, 2)], {
+    type: 'application/json'
+  });
+  var a = document.createElement('a');
+  __tunnel.setUrlProp(a, "href", URL.createObjectURL(blob));
+  a.download = TALKS_FILE_NAME;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function () {
+    URL.revokeObjectURL(a.href);
+  }, 4000);
+  state.talksFileExportedAt = Date.now();
+  saveState();
+  showMsg('data-msg', 'Downloaded talks.json (' + state.talks.length + ' talk(s)). Now upload it to your GitHub Toolbox-Talk repo — Add file → Upload files — keeping the name talks.json, in the same folder as the app file. Phones will pick it up on the next scan.', 'ok');
+  renderTalksSync();
+}
+function renderTalksSync() {
+  var urlEl = document.getElementById('talks-file-url');
+  if (urlEl) urlEl.textContent = talksFileUrl();
+  var msg = document.getElementById('talks-sync-msg');
+  if (!msg) return;
+  var localHash = talksHash(state.talks, state.schedule);
+  var needsExport = state.talks.length && state.updatedAt && state.talksFileExportedAt && state.talksFileExportedAt < state.updatedAt;
+  var neverExported = state.talks.length && !state.talksFileExportedAt;
+  if (!state.talks.length && !state.schedule.length) {
+    msg.className = 'msg warn show';
+    msg.textContent = 'No talks yet. Add a talk first, then download the talks file and upload it to GitHub.';
+  } else if (liveTalksData && talksHash(liveTalksData.talks, liveTalksData.schedule) === localHash) {
+    msg.className = 'msg ok show';
+    msg.textContent = 'Live and local match: the talks file phones load from GitHub (' + talksFileUrl() + ') has exactly the talks and schedule saved in this browser. Phones are up to date.';
+  } else if (liveTalksStatus === 'found' && liveTalksData) {
+    msg.className = 'msg warn show';
+    msg.textContent = 'The live talks file on GitHub is different from the talks saved in this browser. If you just added talks here, download a fresh talks.json and upload it over the old one on GitHub — phones will then load the new talks without the whole app.';
+  } else if (needsExport || neverExported) {
+    msg.className = 'msg warn show';
+    msg.textContent = 'Talks saved in this browser are not published to phones yet. Download the talks file below and upload it to GitHub as talks.json (same folder as the app). After that one upload, phones load talks from that file live.';
+  } else if (liveTalksStatus === 'missing') {
+    msg.className = 'msg warn show';
+    msg.textContent = 'No live talks file found yet at ' + talksFileUrl() + ' — phones are still using the talks baked into the app file. Download the talks file and upload it to GitHub to switch phones to live talks-file updates.';
+  } else if (liveTalksStatus === 'local-file') {
+    msg.className = 'msg show';
+    msg.textContent = 'You are opening this as a local file, so the live talks file cannot be checked here. On the hosted copy, phones fetch talks.json live on every scan.';
+  } else {
+    msg.className = 'msg show';
+    msg.textContent = 'Talks file ready to download. Upload it to GitHub as talks.json to publish these talks to phones.';
+  }
+  var liveMsg = document.getElementById('talks-live-msg');
+  if (liveMsg) {
+    if (liveTalksStatus === 'found' && liveTalksData) {
+      liveMsg.className = 'msg ok show';
+      liveMsg.textContent = 'Live talks file found: ' + liveTalksData.talks.length + ' talk(s), ' + liveTalksData.schedule.length + ' schedule assignment(s) at ' + talksFileUrl();
+    } else if (liveTalksStatus === 'missing') {
+      liveMsg.className = 'msg';
+      liveMsg.textContent = '';
+    }
+  }
+  var bakeMsg = document.getElementById('bake-msg');
+  if (bakeMsg && liveTalksData && talksHash(liveTalksData.talks, liveTalksData.schedule) === localHash) {
+    bakeMsg.className = 'msg ok show';
+    bakeMsg.textContent = 'Phones are up to date via the live talks file — you do not need to re-download the whole app for these talks.';
+  }
 }
 function pad(n) {
   return (n < 10 ? '0' : '') + n;
@@ -2419,6 +2618,7 @@ function deleteTalk(id) {
     return x.talkId !== id;
   });
   if (editingTalkId === id) resetTalkForm();
+  markUpdated();
   saveState();
   renderTalks();
   toast('Deleted “' + (tk ? tk.title : 'talk') + '” and its schedule assignments.');
@@ -2463,11 +2663,13 @@ function saveTalk() {
     var dueNow = entriesDueOn(todayStr());
     for (var d = 0; d < dueNow.length; d++) if (dueNow[d].talkId === savedId) todayTalkId = savedId;
   }
+  markUpdated();
   saveState();
   resetTalkForm();
   renderTalks();
+  renderTalksSync();
   if (schedStatus === 'added') {
-    toast('Talk ' + (wasEdit ? 'saved' : 'added') + ' and scheduled for ' + prettyShort(schedDate) + ' · ' + (REC_LABEL[schedRec] || schedRec) + '. See it on the Schedule tab.');
+    toast('Talk ' + (wasEdit ? 'saved' : 'added') + ' and scheduled for ' + prettyShort(schedDate) + ' · ' + (REC_LABEL[schedRec] || schedRec) + '. Publish it to phones from Settings → Download talks file.');
   } else if (schedStatus === 'updated') {
     toast('Talk saved and its schedule updated to ' + prettyShort(schedDate) + ' · ' + (REC_LABEL[schedRec] || schedRec) + '.');
   } else if (schedStatus === 'already') {
@@ -2591,9 +2793,10 @@ function renderSchedule() {
       state.schedule = state.schedule.filter(function (x) {
         return x.id !== id;
       });
+      markUpdated();
       saveState();
       renderSchedule();
-      toast('Assignment removed.');
+      toast('Assignment removed. Re-download the talks file in Settings to publish this change to phones.');
     });
   }
   var up = document.getElementById('upcoming-list');
@@ -2650,6 +2853,7 @@ function addSchedule() {
   });
   var dueToday = entriesDueOn(todayStr());
   for (var j = 0; j < dueToday.length; j++) if (dueToday[j].talkId === talkId) todayTalkId = talkId;
+  markUpdated();
   saveState();
   renderSchedule();
   showMsg('sched-msg', 'Added — “' + talkById(talkId).title + '” · first: ' + prettyShort(date) + ' · ' + (REC_LABEL[rec] || rec) + '. It is listed under Assignments and Coming Up below, and shows on the Today view on its day.', 'ok');
@@ -2763,19 +2967,24 @@ function renderSettings() {
   document.getElementById('set-company').value = state.settings.company || '';
   document.getElementById('set-presenter').value = state.settings.presenter || '';
   document.getElementById('set-url').value = state.settings.hostedUrl || '';
+  renderTalksSync();
   var bakeMsg = document.getElementById('bake-msg');
   var bakedTalks = bakedSnapshot ? bakedSnapshot.talks : [];
   var bakedSched = bakedSnapshot ? bakedSnapshot.schedule : [];
   var inSync = JSON.stringify(bakedTalks) === JSON.stringify(state.talks) && JSON.stringify(bakedSched) === JSON.stringify(state.schedule);
-  if (!state.talks.length && !state.schedule.length) {
+  var liveCovers = liveTalksData && talksHash(liveTalksData.talks, liveTalksData.schedule) === talksHash(state.talks, state.schedule);
+  if (liveCovers) {
+    bakeMsg.className = 'msg ok show';
+    bakeMsg.textContent = 'Phones are up to date via the live talks file — you do not need to re-download the whole app for these talks.';
+  } else if (!state.talks.length && !state.schedule.length) {
     bakeMsg.className = 'msg';
     bakeMsg.textContent = '';
   } else if (inSync) {
     bakeMsg.className = 'msg ok show';
-    bakeMsg.textContent = 'This file already contains the talks and schedule saved in this browser, so a phone scanning the QR code sees them too.';
+    bakeMsg.textContent = 'This app file already contains the talks and schedule saved in this browser. Once you also upload a talks.json, phones will stay up to date from that file instead.';
   } else {
     bakeMsg.className = 'msg warn show';
-    bakeMsg.textContent = 'The talks and schedule saved in this browser are not in the hosted file yet — a phone scanning the QR code cannot see them. Use Download this file above, then upload the copy over the hosted file at the same address.';
+    bakeMsg.textContent = 'For phones: use Download talks file above and upload talks.json to GitHub — that is now the way phones get new talks. Download this file (whole app) is only needed when the app itself changes.';
   }
 }
 function saveSettings() {
@@ -2790,8 +2999,10 @@ function saveSettings() {
   state.settings.company = document.getElementById('set-company').value.trim();
   state.settings.presenter = document.getElementById('set-presenter').value.trim();
   state.settings.hostedUrl = urlInput;
+  markUpdated();
   saveState();
-  showMsg('set-msg', 'Settings saved.', 'ok');
+  renderTalksSync();
+  showMsg('set-msg', 'Settings saved. If you changed company or presenter, download a fresh talks file too — phones read those names from talks.json.', 'ok');
 }
 function downloadFile() {
   state.bakeStamp = Date.now();
@@ -2840,6 +3051,7 @@ function importBackup(file) {
       var parsed = JSON.parse(String(r.result || ''));
       if (!parsed || typeof parsed !== 'object' || !Array.isArray(parsed.talks) && !Array.isArray(parsed.schedule)) throw new Error('shape');
       state = normalize(parsed);
+      if (!state.updatedAt) state.updatedAt = Date.now();
       saveState();
       resetTalkForm();
       renderSettings();
@@ -2924,6 +3136,11 @@ function init() {
   document.getElementById('btn-qr-png').addEventListener('click', downloadQRPng);
   document.getElementById('btn-print-poster').addEventListener('click', printPoster);
   document.getElementById('btn-save-settings').addEventListener('click', saveSettings);
+  document.getElementById('btn-download-talks').addEventListener('click', downloadTalksFile);
+  document.getElementById('btn-refresh-live').addEventListener('click', function () {
+    liveTalksStatus = 'unknown';
+    fetchLiveTalks('manual');
+  });
   document.getElementById('btn-download-file').addEventListener('click', downloadFile);
   document.getElementById('btn-export').addEventListener('click', exportBackup);
   document.getElementById('btn-import-trigger').addEventListener('click', function () {
@@ -2940,8 +3157,7 @@ function init() {
   window.addEventListener('afterprint', afterPrintCleanup);
   window.addEventListener('pageshow', function (ev) {
     if (ev && ev.persisted) {
-      hostedRefreshDone = false;
-      refreshFromHostedCopy();
+      fetchLiveTalks();
     }
   });
   if (window.location.hash && window.location.hash.indexOf('#today') === 0) {
@@ -2949,7 +3165,7 @@ function init() {
     var brand = document.getElementById('trainee-brand');
     brand.textContent = state.settings.company ? state.settings.company + ' · Toolbox Talk' : 'Toolbox Talk';
   }
-  if (document.body.classList.contains('trainee') || !state.talks.length) refreshFromHostedCopy();
+  fetchLiveTalks();
   renderSettings();
   showView('today');
 }
