@@ -364,7 +364,7 @@
               <p class="small">The host must serve the file as a web page. File-share links from Google Drive, OneDrive, or SharePoint open a preview or sign-in page instead of running the file, so they are refused here.</p>
               <label class="field">
                 <span>Hosted address of this file</span>
-                <input type="url" id="qr-url" placeholder="https://your-host.example/toolbox-talks.html" />
+                <input type="url" id="qr-url" placeholder="https://pputnam123.github.io/Toolbox-Talk/" />
               </label>
               <div class="btn-row">
                 <button class="btn primary" id="btn-save-url">Save address &amp; draw code</button>
@@ -413,7 +413,7 @@
               </label>
               <label class="field">
                 <span>Hosted address of this file <span class="hint">— the same address as in QR Access; the QR code is drawn from it.</span></span>
-                <input type="url" id="set-url" placeholder="https://your-host.example/toolbox-talks.html" />
+                <input type="url" id="set-url" placeholder="https://pputnam123.github.io/Toolbox-Talk/" />
               </label>
               <div class="btn-row">
                 <button class="btn primary" id="btn-save-settings">Save settings</button>
@@ -423,7 +423,7 @@
 
             <div class="card">
               <h3>Move this file</h3>
-              <p class="small">Download this file bakes your current talks, schedule, and settings into the copy, so the hosted version opens with everything in it on a fresh device. A device that already has its own saved data keeps that data.</p>
+              <p class="small">Download this file bakes your current talks, schedule, and settings into the copy, so the hosted version opens with everything in it — including on phones and browsers that opened an older copy before: they pick up the new talks and schedule from the updated file, so the posted QR code shows the current talk.</p>
               <div class="btn-row">
                 <button class="btn primary" id="btn-download-file">Download this file</button>
                 <button class="btn" id="btn-export">Export backup (.json)</button>
@@ -445,7 +445,7 @@
     <div class="toast" id="toast" role="status"></div>
 
     <!-- Data baked into a downloaded copy lives here. {} = nothing baked in. -->
-    <script type="application/json" id="embedded-data">{}</script>
+    <script type="application/json" id="embedded-data">{"settings":{"company":"","presenter":"","hostedUrl":"https://pputnam123.github.io/Toolbox-Talk/"},"talks":[],"schedule":[],"bakeStamp":1795105851565}</script>
 
     <script>
       // This file's own source is captured in the second script block, just
@@ -455,7 +455,7 @@
 
       /* ================= State ================= */
       var LS_KEY = 'toolbox-talk-qr-state-v1';
-      var state = { settings: { company: '', presenter: '', hostedUrl: '' }, talks: [], schedule: [] };
+      var state = { settings: { company: '', presenter: '', hostedUrl: '' }, talks: [], schedule: [], bakeStamp: 0 };
       var editingTalkId = null;
       var todayTalkId = null; // talk currently shown on the Today view
       var pendingScheduleTalkId = null; // most recently saved talk; pre-selected on the Schedule tab
@@ -468,17 +468,44 @@
           var raw = document.getElementById('embedded-data').textContent.trim();
           if (raw) embedded = JSON.parse(raw);
         } catch (e) { embedded = null; }
+        var emb = null;
+        if (embedded && (embedded.talks || embedded.schedule || embedded.settings)) emb = normalize(embedded);
         var local = null;
         try {
           var ls = localStorage.getItem(LS_KEY);
           if (ls) local = JSON.parse(ls);
         } catch (e) { local = null; }
-        if (local && (local.talks || local.schedule || local.settings)) {
-          state = normalize(local);
-        } else if (embedded && (embedded.talks || embedded.schedule || embedded.settings)) {
-          state = normalize(embedded);
-          saveState();
+        if (!local || !(local.talks || local.schedule || local.settings)) {
+          if (emb) { state = emb; saveState(); }
+          return;
         }
+        state = normalize(local);
+        if (!emb) return;
+        // A re-issued copy of this file (Download this file, then overwrite
+        // the hosted file at the same address) carries a newer bake stamp
+        // plus the talks and schedule baked into it. When this browser still
+        // holds data saved from an older copy, the baked talks/schedule win —
+        // otherwise the updated hosted file keeps showing the old, possibly
+        // empty, local data: the Schedule tab has nothing to assign and new
+        // talks never reach the Today view. The same applies in trainee
+        // view (#today): a scan should always show the posted file's talks.
+        var trainee = !!(window.location.hash && window.location.hash.indexOf('#today') === 0);
+        var fileReissued = !!(emb.bakeStamp && emb.bakeStamp !== state.bakeStamp);
+        var localEmpty = !state.talks.length && !state.schedule.length;
+        var changed = false;
+        if ((trainee || fileReissued || localEmpty) && (emb.talks.length || emb.schedule.length)) {
+          state.talks = emb.talks;
+          state.schedule = emb.schedule;
+          changed = true;
+        }
+        if (fileReissued) { state.bakeStamp = emb.bakeStamp; changed = true; }
+        // Fill any blank settings from the baked copy — notably the hosted
+        // address, so the permanent QR code draws without re-typing it.
+        var keys = ['company', 'presenter', 'hostedUrl'];
+        for (var i = 0; i < keys.length; i++) {
+          if (!state.settings[keys[i]] && emb.settings[keys[i]]) { state.settings[keys[i]] = emb.settings[keys[i]]; changed = true; }
+        }
+        if (changed) saveState();
       }
       function normalize(s) {
         return {
@@ -488,7 +515,8 @@
             hostedUrl: (s.settings && s.settings.hostedUrl) || ''
           },
           talks: Array.isArray(s.talks) ? s.talks : [],
-          schedule: Array.isArray(s.schedule) ? s.schedule : []
+          schedule: Array.isArray(s.schedule) ? s.schedule : [],
+          bakeStamp: (s && typeof s.bakeStamp === 'number') ? s.bakeStamp : 0
         };
       }
       function saveState() {
@@ -785,6 +813,12 @@
         // when a talk was added only from this form / a file import.
         var schedStatus = scheduleTalkOnSave(savedId, schedDate, schedRec);
         pendingScheduleTalkId = savedId;
+        // If this talk is due today, make it the one the Today view shows,
+        // even when another talk is also due today.
+        if (schedStatus !== 'not-scheduled') {
+          var dueNow = entriesDueOn(todayStr());
+          for (var d = 0; d < dueNow.length; d++) if (dueNow[d].talkId === savedId) todayTalkId = savedId;
+        }
         saveState();
         resetTalkForm();
         renderTalks();
@@ -869,6 +903,8 @@
     <script>
       /* ================= Schedule ================= */
       function renderSchedule() {
+        var dateInput = document.getElementById('sched-date');
+        if (!dateInput.value) dateInput.value = todayStr();
         var sel = document.getElementById('sched-talk');
         var prev = sel.value;
         if (!state.talks.length) {
@@ -931,13 +967,23 @@
         var talkId = document.getElementById('sched-talk').value;
         var date = document.getElementById('sched-date').value;
         var rec = document.getElementById('sched-rec').value;
-        if (!talkId) { showMsg('sched-msg', 'Add a talk first, then assign it here.', 'error'); return; }
+        if (!talkId || !talkById(talkId)) { showMsg('sched-msg', 'Add a talk first, then assign it here.', 'error'); return; }
         if (!date) { showMsg('sched-msg', 'Pick a first date.', 'error'); return; }
+        for (var i = 0; i < state.schedule.length; i++) {
+          var ex = state.schedule[i];
+          if (ex.talkId === talkId && ex.date === date && ex.recurrence === rec) {
+            showMsg('sched-msg', '“' + talkById(talkId).title + '” is already on the schedule for ' + prettyShort(date) + ' · ' + (REC_LABEL[rec] || rec) + ' — see Assignments below.', 'warn');
+            return;
+          }
+        }
         state.schedule.push({ id: uid(), talkId: talkId, date: date, recurrence: rec });
+        // If the new entry is due today, make it the talk Today shows.
+        var dueToday = entriesDueOn(todayStr());
+        for (var j = 0; j < dueToday.length; j++) if (dueToday[j].talkId === talkId) todayTalkId = talkId;
         saveState();
-        hideMsg('sched-msg');
         renderSchedule();
-        toast('Scheduled. It will appear on the Today view on its day.');
+        showMsg('sched-msg', 'Added — “' + talkById(talkId).title + '” · first: ' + prettyShort(date) + ' · ' + (REC_LABEL[rec] || rec) + '. It is listed under Assignments and Coming Up below, and shows on the Today view on its day.', 'ok');
+        toast('Scheduled for ' + prettyShort(date) + '.');
       }
 
       /* ================= QR ================= */
@@ -1036,6 +1082,11 @@
         showMsg('set-msg', 'Settings saved.', 'ok');
       }
       function downloadFile() {
+        // Stamp each downloaded copy, so a browser that saved data from an
+        // older hosted copy adopts the talks/schedule baked into this one
+        // (see loadState) instead of shadowing them with its old data.
+        state.bakeStamp = Date.now();
+        saveState();
         var json = JSON.stringify(state).replace(/</g, '\\u003c');
         var html = PAGE_SOURCE.replace(/(<script type="application\/json" id="embedded-data">)[\s\S]*?(<\/script>)/, '$1' + json + '$2');
         if (html === PAGE_SOURCE && PAGE_SOURCE.indexOf(json) === -1) {
