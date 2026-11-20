@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": 1795121388342,
-  "exportedAt": "2026-11-19T20:49:59.790Z",
+  "updatedAt": 1795173261132,
+  "exportedAt": "2026-11-20T11:14:38.844Z",
   "settings": {
-    "company": "",
+    "company": "Dillmeier Glass",
     "presenter": "",
     "hostedUrl": "https://pputnam123.github.io/Toolbox-Talk/"
   },
@@ -13,14 +13,14 @@
       "body": "DILLMEIER GLASS COMPANY\n\nTOOLBOX TALK  |  PERSONAL PROTECTIVE EQUIPMENT (PPE)\n\nDATE: ____________________\n\nDEPARTMENT: ____________________\n\nLEADER: ____________________\n\nWHY PPE MATTERS\n\nPPE helps protect you from hazards created by glass, metal, equipment, and production activities. Required PPE must be worn by everyone in production areas—regardless of job title or visitor status—and whenever a task or hazard assessment requires it.\n\nKNOW WHAT TO WEAR\n\nEYES & HEAD\n\nWear ANSI-compliant eye protection in production areas, while operating forklifts, handling glass, and during specified exterior work. Hard hats/protective headgear are required in production and construction areas and when operating forklifts.\n\nHANDS & ARMS\n\nWhen handling glass or metal, wear cut-rated hand protection (minimum A4) covering the palm, back of hand, wrist, and fingers. When handling glass, wear the required cut-rated arm protection (minimum A4) if you do not regularly handle annealed glass.\n\nANNEALED GLASS\n\nEmployees who regularly handle annealed glass must wear a cut-rated long-sleeve shirt (minimum A5) and cut-rated chaps/leg protection (minimum A4) while in production areas or handling glass, wherever the work occurs.\n\nFEET & SPECIALTY\n\nProduction-area footwear must cover the entire foot. Protected-toe footwear is required for people handling glass, using cranes, or working close to glass handlers. Visitors/non-employees must wear a high-visibility vest in production areas.\n\nBEFORE YOU START\n\nInspect PPE at the beginning of each shift. Check usability, function, cleanliness, durability, snug fit, and that it does not interfere with movement.\n\nDo not use PPE that is defective, damaged, or unsafe. Remove it from service for disposal, cleaning, or repair.\n\nClean and maintain your PPE. Clean shared PPE (such as face shields) before and after each use.\n\nWear a face shield together with eye protection when grinding or cutting metal.\n\nDo not wear gloves where a documented hazard analysis identifies a reasonable risk of the glove being caught in moving machinery or materials.\n\nAsk your supervisor if you are unsure which PPE is required for a task. Specialty PPE may be required for electrical, fall, chemical, hot-work, respiratory, or other hazards.\n\nTALK IT THROUGH\n\nAsk the team: What PPE is required for the job we are doing today? Is any of your PPE damaged, dirty, ill-fitting, or missing?\n\nKEY TAKEAWAY\n\nWear the right PPE, inspect it before use, and replace unsafe equipment. If the hazard or PPE requirement is unclear, stop and ask your supervisor.\n\nEMPLOYEE ACKNOWLEDGMENT\n\nI participated in this toolbox talk and had the opportunity to ask questions.\n\nEMPLOYEE NAME / SIGNATURE: ______________________________________________\n\nDATE: __________________\n\nEMPLOYEE NAME / SIGNATURE: ______________________________________________\n\nDATE: __________________",
       "source": "",
       "minutes": "",
-      "id": "id-mwo0xc1h-z43f5m"
+      "id": "id-mwovt5cc-eqotwx"
     }
   ],
   "schedule": [
     {
-      "id": "id-mwo0xc1i-derbcm",
-      "talkId": "id-mwo0xc1h-z43f5m",
-      "date": "2026-11-19",
+      "id": "id-mwovt5cc-8abc3q",
+      "talkId": "id-mwovt5cc-eqotwx",
+      "date": "2026-11-20",
       "recurrence": "weekly"
     }
   ]
